@@ -407,3 +407,51 @@ function ventasSucursal(sucursal){
 
 ventasSucursal("Centro");
 console.log("El total de ventas de la sucursal fue de: $" + ventasSucursal("Centro"));
+
+// Las funciones ventasSucursal y ventasVendedora tienen mucho código en común, ya que es la misma funcionalidad pero trabajando con una propiedad distinta. Entonces, ¿cómo harías para que ambas funciones reutilicen código y evitemos repetir?
+
+//falta reformular ventasVendedora
+
+// Crear la función sucursalDelMes(mes, anio), que se le pasa dos parámetros numéricos, (mes, anio) y devuelve el nombre de la sucursal que más vendió en plata en el mes. No cantidad de ventas, sino importe total de las ventas. El importe de una venta es el que indica la función precioMaquina.
+
+
+function sucursalDelMes(mes,anio){
+    var totalSucursalDelMes = [];
+    for(var i = 0; i < local.sucursales.length; i++){
+        totalSucursalDelMes.push({
+            nombreSucursal: local.sucursales[i],
+            totalVentas: 0,
+        })
+    }
+    //console.log(totalSucursalDelMes)
+    for (var i = 0; i < local.ventas.length; i++) {
+        //console.log(local.ventas[i].fecha)
+        var fecha = local.ventas[i].fecha;
+        var queAnio = fecha.getFullYear();
+        //console.log(queAnio)
+        var queMes = fecha.getMonth() +1;
+        //console.log(queMes)
+        if(queAnio == anio && queMes == mes){
+            for(var j = 0; j < totalSucursalDelMes.length; j++){
+                if(totalSucursalDelMes[j].nombreSucursal == local.ventas[i].sucursal){
+                    totalSucursalDelMes[j].totalVentas =  totalSucursalDelMes[j].totalVentas + precioMaquina(local.ventas[i].componentes)
+                }
+            }
+         }
+    }
+    //console.log(totalSucursalDelMes)
+    var mayor = 0;
+    var nombreMayor = "";
+    for(var i = 0; i < totalSucursalDelMes.length; i++){
+         if(mayor < totalSucursalDelMes[i].totalVentas){
+             mayor = totalSucursalDelMes[i].totalVentas;
+             nombreMayor = totalSucursalDelMes[i].nombreSucursal;
+         }
+    }
+    //console.log(mayor);
+    //console.log(nombreMayor);
+    return nombreMayor
+}
+
+sucursalDelMes(1,2019);
+console.log("La sucursal con mas ventas en ese mes fue: " + sucursalDelMes(1,2019));
