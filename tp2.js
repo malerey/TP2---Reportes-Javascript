@@ -395,8 +395,15 @@ agregarVentas()
 
 // Crear la función ventasSucursal(sucursal), que obtiene las ventas totales realizadas por una sucursal sin límite de fecha.
 
-function ventasSucursal(){
-
+function ventasSucursal(sucursal){
+    var totalVentasSucursal =  0;
+    for(var i = 0; i < local.ventas.length; i++){
+        if(local.ventas[i].sucursal == sucursal){
+            totalVentasSucursal = totalVentasSucursal + precioMaquina(local.ventas[i].componentes)
+        }
+    }
+    return totalVentasSucursal;
 }
 
 ventasSucursal("Centro");
+console.log("El total de ventas de la sucursal fue de: $" + ventasSucursal("Centro"));
