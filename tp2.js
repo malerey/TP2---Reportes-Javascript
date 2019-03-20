@@ -66,71 +66,102 @@ console.log("Precio de la maquina con los componentes seleccionados: $" + precio
 
 //  vendedoraDelMes(mes, anio), se le pasa dos parámetros numéricos, (mes, anio) y devuelve el nombre de la vendedora que más vendió en plata en el mes. O sea no cantidad de ventas, sino importe total de las ventas. El importe de una venta es el que indica la función precioMaquina.
 
-function vendedoraDelMes(mes, anio){
-    var ventasDelMes = [];
-    for (var i = 0; i < local.ventas.length; i++) {
-        //console.log(local.ventas[i].fecha)
-        var fecha = local.ventas[i].fecha;
-        var queAnio = fecha.getFullYear();
-        //console.log(queAnio)
-        var queMes = fecha.getMonth() +1;
-        //console.log(queMes)
-        if(queAnio == anio && queMes == mes){
-            //console.log("OK")
-            ventasDelMes.push(local.ventas[i]);
-            //console.log(ventasDelMes);
-        } 
+// function vendedoraDelMes(mes, anio){
+//     var ventasDelMes = [];
+//     for (var i = 0; i < local.ventas.length; i++) {
+//         //console.log(local.ventas[i].fecha)
+//         var fecha = local.ventas[i].fecha;
+//         var queAnio = fecha.getFullYear();
+//         //console.log(queAnio)
+//         var queMes = fecha.getMonth() +1;
+//         //console.log(queMes)
+//         if(queAnio == anio && queMes == mes){
+//             //console.log("OK")
+//             ventasDelMes.push(local.ventas[i]);
+//             //console.log(ventasDelMes);
+//         } 
+//     }
+//     var arrayVentasDelMesAda = [];
+//     var arrayVentasDelMesGrace = [];
+//     for (var i = 0; i < ventasDelMes.length; i++){
+//         //console.log(ventasDelMes[i].nombreVendedora)
+//         if(ventasDelMes[i].nombreVendedora == "Ada"){
+//             arrayVentasDelMesAda.push(ventasDelMes[i].componentes);
+//             //console.log("Array de ventas de Ada: " + arrayVentasDelMesAda)
+//         }else if(ventasDelMes[i].nombreVendedora == "Grace"){
+//             arrayVentasDelMesGrace.push(ventasDelMes[i].componentes);
+//             //console.log("Array de ventas de Grace: " + arrayVentasDelMesGrace)
+//         }
+//     }
+//     var ventasDelMesAda = [];
+//     for (var i = 0; i < arrayVentasDelMesAda.length; i++){
+//         //console.log(arrayVentasDelMesAda[i]);
+//         for(var j = 0; j < arrayVentasDelMesAda[i].length; j++){
+//             var pepe = arrayVentasDelMesAda[i];
+//             //console.log("Array de ventas j: " + pepe[j])
+//             ventasDelMesAda.push(pepe[j]);
+//         }
+//     }
+//     //console.log("Venta del mes de Ada: " + ventasDelMesAda);
+
+//     var ventasDelMesGrace = [];
+//     for (var i = 0; i < arrayVentasDelMesGrace.length; i++){
+//         //console.log(arrayVentasDelMesGrace[i]);
+//         for(var j = 0; j < arrayVentasDelMesGrace[i].length; j++){
+//             var pepe = arrayVentasDelMesGrace[i];
+//             //console.log("Array de ventas j: " + pepe[j])
+//             ventasDelMesGrace.push(pepe[j]);
+//         }
+//     }
+//     //console.log("Venta del mes de Grace: " + ventasDelMesGrace);
+
+
+//     var totalVentasMesAda = precioMaquina(ventasDelMesAda);
+//     //console.log("Total de ventas del mes de Ada: $" + totalVentasMesAda);
+//     var totalVentasMesGrace = precioMaquina(ventasDelMesGrace);
+//     //console.log("Total de ventas del mes de Grace: $" + totalVentasMesGrace);
+
+//     if(totalVentasMesAda > totalVentasMesGrace){
+//         var mejorVendedoraDelMes = console.log("Ada fue la mejor vendedora del mes")
+//     }else{
+//         var mejorVendedoraDelMes = console.log("Grace fue la mejor vendedora del mes")
+//     }
+
+//     return mejorVendedoraDelMes
+// }
+
+// vendedoraDelMes(0, 2019); 
+
+function vendedoraDelMes (mes,anio){
+    var arrayVendedoras = [];
+    for(var j = 0; j < local.vendedoras.length; j++){
+        var objetoNuevo = 
+        {   nombre: local.vendedoras[j],
+            ventas: 0,
+        }
+        for(var i = 0; i < local.ventas.length; i++){
+            if(local.ventas[i].fecha.getMonth()+1 == mes && local.ventas[i].fecha.getFullYear() == anio){
+                if(objetoNuevo.nombre == local.ventas[i].nombreVendedora){
+                        objetoNuevo.ventas = objetoNuevo.ventas + precioMaquina(local.ventas[i].componentes)
+                }
+            }
+        }
+        arrayVendedoras.push(objetoNuevo)
     }
-    var arrayVentasDelMesAda = [];
-    var arrayVentasDelMesGrace = [];
-    for (var i = 0; i < ventasDelMes.length; i++){
-        //console.log(ventasDelMes[i].nombreVendedora)
-        if(ventasDelMes[i].nombreVendedora == "Ada"){
-            arrayVentasDelMesAda.push(ventasDelMes[i].componentes);
-            //console.log("Array de ventas de Ada: " + arrayVentasDelMesAda)
-        }else if(ventasDelMes[i].nombreVendedora == "Grace"){
-            arrayVentasDelMesGrace.push(ventasDelMes[i].componentes);
-            //console.log("Array de ventas de Grace: " + arrayVentasDelMesGrace)
+    //console.log(arrayVendedoras)
+    var valorMaximo = 0;
+    var nombreVendedora = "";
+    for(var k = 0; k < arrayVendedoras.length; k++){
+        if(valorMaximo < arrayVendedoras[k].ventas){
+            valorMaximo = arrayVendedoras[k].ventas;
+            nombreVendedora = arrayVendedoras[k].nombre;
         }
     }
-    var ventasDelMesAda = [];
-    for (var i = 0; i < arrayVentasDelMesAda.length; i++){
-        //console.log(arrayVentasDelMesAda[i]);
-        for(var j = 0; j < arrayVentasDelMesAda[i].length; j++){
-            var pepe = arrayVentasDelMesAda[i];
-            //console.log("Array de ventas j: " + pepe[j])
-            ventasDelMesAda.push(pepe[j]);
-        }
-    }
-    //console.log("Venta del mes de Ada: " + ventasDelMesAda);
-
-    var ventasDelMesGrace = [];
-    for (var i = 0; i < arrayVentasDelMesGrace.length; i++){
-        //console.log(arrayVentasDelMesGrace[i]);
-        for(var j = 0; j < arrayVentasDelMesGrace[i].length; j++){
-            var pepe = arrayVentasDelMesGrace[i];
-            //console.log("Array de ventas j: " + pepe[j])
-            ventasDelMesGrace.push(pepe[j]);
-        }
-    }
-    //console.log("Venta del mes de Grace: " + ventasDelMesGrace);
-
-
-    var totalVentasMesAda = precioMaquina(ventasDelMesAda);
-    //console.log("Total de ventas del mes de Ada: $" + totalVentasMesAda);
-    var totalVentasMesGrace = precioMaquina(ventasDelMesGrace);
-    //console.log("Total de ventas del mes de Grace: $" + totalVentasMesGrace);
-
-    if(totalVentasMesAda > totalVentasMesGrace){
-        var mejorVendedoraDelMes = console.log("Ada fue la mejor vendedora del mes")
-    }else{
-        var mejorVendedoraDelMes = console.log("Grace fue la mejor vendedora del mes")
-    }
-
-    return mejorVendedoraDelMes
+    return nombreVendedora
 }
 
-vendedoraDelMes(0, 2019); 
+vendedoraDelMes(1,2019)
+console.log("La vendedora del mes es: " + vendedoraDelMes(1,2019))
 
 // ventasMes(mes, anio): Obtener las ventas de un mes.
 
@@ -141,7 +172,7 @@ function ventasDelMes(mes, anio){
         var fecha = local.ventas[i].fecha;
         var queAnio = fecha.getFullYear();
         //console.log(queAnio)
-        var queMes = fecha.getMonth();
+        var queMes = fecha.getMonth() + 1;
         //console.log(queMes)
         if(queAnio == anio && queMes == mes){
             //console.log("OK")
@@ -162,8 +193,8 @@ function ventasDelMes(mes, anio){
     return precioMaquina(arrayComponentesDelMes)
 }
 
-ventasDelMes(0,2019);
-console.log("El total vendido en el mes fue de: $" + ventasDelMes(0,2019));
+ventasDelMes(1,2019);
+console.log("El total vendido en el mes fue de: $" + ventasDelMes(1,2019));
 
 // ventasVendedora(nombre): Obtener las ventas totales realizadas por una vendedora sin límite de fecha.
 
@@ -408,10 +439,6 @@ function ventasSucursal(sucursal){
 ventasSucursal("Centro");
 console.log("El total de ventas de la sucursal fue de: $" + ventasSucursal("Centro"));
 
-// Las funciones ventasSucursal y ventasVendedora tienen mucho código en común, ya que es la misma funcionalidad pero trabajando con una propiedad distinta. Entonces, ¿cómo harías para que ambas funciones reutilicen código y evitemos repetir?
-
-//falta reformular ventasVendedora
-
 // Crear la función sucursalDelMes(mes, anio), que se le pasa dos parámetros numéricos, (mes, anio) y devuelve el nombre de la sucursal que más vendió en plata en el mes. No cantidad de ventas, sino importe total de las ventas. El importe de una venta es el que indica la función precioMaquina.
 
 
@@ -455,3 +482,76 @@ function sucursalDelMes(mes,anio){
 
 sucursalDelMes(1,2019);
 console.log("La sucursal con mas ventas en ese mes fue: " + sucursalDelMes(1,2019));
+
+// Para tener una mejor muestra de como está resultando el local, queremos desarrollar un reporte que nos muestre las ventas por sucursal y por mes. Para esto, necesitamos crear las siguientes funciones:
+
+// renderPorMes(): Muestra una lista ordenada del importe total vendido por cada mes/año
+
+function renderPorMes(){
+ var meses = [1,2,3,4,5,6,7,8,9,10,11,12];
+ var nombresMeses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+ var mensaje = "";
+ var totalMes = [];
+ 
+    console.log("Ventas por mes:")
+    for(var i = 0; i < meses.length; i++){
+            totalMes.push(ventasDelMes(meses[i],2019));
+            //console.log(totalMes)
+    }
+    for(var i = 0; i < nombresMeses.length; i++){
+        mensaje = console.log("Total de " + nombresMeses[i] + " 2019: " + totalMes[i]);
+    }
+return mensaje
+}
+
+renderPorMes();
+
+// renderPorSucursal(): Muestra una lista del importe total vendido por cada sucursal
+
+function renderPorSucursal(){
+    var mensaje = "";
+    console.log("Ventas por sucursal:")
+    for(var i = 0; i < local.sucursales.length; i++){
+        mensaje = console.log("Total de " + local.sucursales[i] + ": " + ventasSucursal(local.sucursales[i]))
+    }
+    return mensaje
+}
+
+renderPorSucursal();
+
+// render(): Tiene que mostrar la unión de los dos reportes anteriores, cual fue el producto más vendido y la vendedora que más ingresos generó
+
+function render(){
+    console.log("Reporte");
+    renderPorMes();
+    renderPorSucursal();
+    console.log("Producto estrella: " + componenteMasVendido());
+
+    function mejorVendedora(){
+        var arrayVendedoras = [];
+        for(var i = 0; i < local.vendedoras.length; i++){
+            var objetoVendedoras = {
+                nombreVendedora: local.vendedoras[i],
+                totalVendedora: ventasVendedora(local.vendedoras[i]),
+            }
+            //console.log(objetoVendedoras)
+            arrayVendedoras.push(objetoVendedoras);
+        }
+        //console.log(arrayVendedoras)
+        var mayorVenta = 0;
+        var nombreMayor = "";
+        for(var i = 0; i < arrayVendedoras.length; i++){
+            //console.log(arrayVendedoras[i])
+            if(mayorVenta < arrayVendedoras[i].totalVendedora){
+                mayorVenta = arrayVendedoras[i].totalVendedora;
+                nombreMayor = arrayVendedoras[i].nombreVendedora;
+            }
+        }
+        return nombreMayor
+    }
+    mejorVendedora()
+
+    console.log("Vendedora que más ingresos generó: " + mejorVendedora())
+}
+
+render();
