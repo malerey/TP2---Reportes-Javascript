@@ -1,3 +1,9 @@
+// Mai, felicitaciones por tu trabajo. 
+// En general esta todo muy bien. Tu codigo es claro y prolijo, y tu uso de variables muy correcto tambien
+// Para ir trabajando, se podrian acortar algunas de estas funciones, que hoy ocupan bastante mas codigo que el necesario
+// Te deje algunos comentarios salpicados en el codigo, y algunas sugerencias para hacer las funciones de otras maneras
+// Cualquier cosa que no se entienda, escribime. 
+
 var local = {
     vendedoras: ["Ada", "Grace", "Hedy", "Sheryl"],
   
@@ -28,6 +34,10 @@ function precioMaquina(componentes) {
     var precioComponente = 0;
     for(var i = 0; i < componentes.length; i++){
         //console.log(componentes[i]);
+        
+        // un detalle, pero si esto fuera un challenge tecnico para una entrevista, por ejemplo
+        // tendrias que borrar todos los console.log. 
+        // los console.log son una ayuda mientras codeamos, pero no deben verse en un codigo terminado
         for(var j = 0; j < local.precios.length; j++){
            if(componentes[i] == local.precios[j].componente){
                precioComponente += local.precios[j].precio;   
@@ -160,6 +170,34 @@ function vendedoraDelMes (mes,anio){
     return nombreVendedora
 }
 
+
+// fantastico
+// una version mas breve (aunque mas abstracta) es esta:
+
+// function vendedoraDelMes(mes, anio) {
+//   var ventasVendedoras = {};
+
+//   for (var i = 0; i < local.ventas.length; i++) {
+//     if (local.ventas[i].fecha.getMonth() + 1 === mes && local.ventas[i].fecha.getFullYear() === anio) {
+//       var vendedora = local.ventas[i].nombreVendedora;
+//       if (!ventasVendedoras[vendedora]) {
+//         ventasVendedoras[vendedora] = 0;
+//       }
+
+//       ventasVendedoras[vendedora] += precioMaquina( local.ventas[i].componentes );
+//     }
+//   }
+
+//   var max = vendedoras[0];
+
+//   for (var i = 0; i < vendedoras.length; i++) {
+//     if (max && ventasVendedoras[vendedoras[i]] > ventasVendedoras[max]) {
+//       max = vendedoras[i];
+//     }
+//   }
+
+//   return max;
+// }
 vendedoraDelMes(1,2019)
 console.log("La vendedora del mes es: " + vendedoraDelMes(1,2019))
 
@@ -192,6 +230,8 @@ function ventasDelMes(mes, anio){
     //console.log(arrayComponentesDelMes)
     return precioMaquina(arrayComponentesDelMes)
 }
+
+// muy bien!
 
 ventasDelMes(1,2019);
 console.log("El total vendido en el mes fue de: $" + ventasDelMes(1,2019));
@@ -261,6 +301,22 @@ function componenteMasVendido(){
     return nombreMayor
 }
 
+
+// no esta mal esta funcion, pero se podria haber hecho sin hacer los tres for, uno debajo del otro
+// por ejemplo:
+
+// function componenteMasVendido () {
+//   var componente = local.precios[0].componente;
+
+//   for (var i = 0; i < local.precios.length; i++) {
+//     if (cantidadVentasComponente(local.precios[i].componente) > cantidadVentasComponente(componente)) {
+//       componente = local.precios[i].componente;
+//     }
+//   }
+
+//   return componente;
+// }
+
 componenteMasVendido();
 console.log("El componente mas vendido es: " + componenteMasVendido())
 
@@ -284,6 +340,7 @@ function huboVentas(mes, anio){
     }
     return huboVentas;
 }
+
 
 huboVentas(3,2019);
 console.log("Hubo ventas este mes? " + huboVentas(3,2019));
@@ -431,6 +488,8 @@ function ventasSucursal(sucursal){
     for(var i = 0; i < local.ventas.length; i++){
         if(local.ventas[i].sucursal == sucursal){
             totalVentasSucursal = totalVentasSucursal + precioMaquina(local.ventas[i].componentes)
+            // tambien podriamos escribir, para abreviar:
+            // totalVentasSucursal += precioMaquina(local.ventas[i].componentes)
         }
     }
     return totalVentasSucursal;
@@ -438,6 +497,12 @@ function ventasSucursal(sucursal){
 
 ventasSucursal("Centro");
 console.log("El total de ventas de la sucursal fue de: $" + ventasSucursal("Centro"));
+
+// Quedaria pendiente responder como unificar el codigo de ventasVendedora y ventasSucursal! 
+
+
+
+
 
 // Crear la función sucursalDelMes(mes, anio), que se le pasa dos parámetros numéricos, (mes, anio) y devuelve el nombre de la sucursal que más vendió en plata en el mes. No cantidad de ventas, sino importe total de las ventas. El importe de una venta es el que indica la función precioMaquina.
 
@@ -482,6 +547,10 @@ function sucursalDelMes(mes,anio){
 
 sucursalDelMes(1,2019);
 console.log("La sucursal con mas ventas en ese mes fue: " + sucursalDelMes(1,2019));
+
+// Bien. 
+
+
 
 // Para tener una mejor muestra de como está resultando el local, queremos desarrollar un reporte que nos muestre las ventas por sucursal y por mes. Para esto, necesitamos crear las siguientes funciones:
 
